@@ -1,5 +1,12 @@
 "use client";
 
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import { fetchPosts } from "@/lib/data";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import Image from "next/image";
@@ -145,6 +152,70 @@ function Feed({ index }) {
             ))}
           </div>
         </div>
+      </div>
+      <div className="w-[1200px] mb-20">
+        <div className="flex my-5 justify-between items-center">
+          <div className="flex gap-3">
+            <div className="bg-red-400 w-fit p-2 rounded-full">
+              <Image
+                src="https://www.gelballundercover.com.au/cdn/shop/files/GBU_Logo_Black_PNG.png?v=1614386085&width=125"
+                alt="Logo"
+                width={50}
+                height={50}
+                className="object-contain h-[40px] w-[40px] "
+              />
+            </div>
+            <div>
+              <p className="text-md font-bold">@gelball_undercover</p>
+              <p>Gellball Undercover</p>
+            </div>
+          </div>
+          <div>
+            <button className="bg-red-500 px-4 py-2 rounded-lg text-white">
+              <div className="flex items-center gap-4">
+                <span>Checkout GBU</span>
+                <ExternalLink className="h-4 w-4" />
+              </div>
+            </button>
+          </div>
+        </div>
+        <Carousel>
+          <CarouselContent>
+            {posts?.map((post, index) => (
+              <CarouselItem
+                className="basis-1/3 rounded-md overflow-hidden"
+                key={post.id}
+              >
+                <div
+                  className="bg-blue-400 cursor-pointer"
+                  onClick={() => handleClick(index)}
+                >
+                  {post.media_url.includes(".mp4") ? (
+                    <div className="h-[400px] w-[400px] overflow-hidden">
+                      <video
+                        width="100%"
+                        height="250px"
+                        autoPlay
+                        muted
+                        preload="none"
+                        loop
+                      >
+                        <source src={post.media_url} />
+                      </video>
+                    </div>
+                  ) : (
+                    <img
+                      src={post.media_url}
+                      class="object-cover h-[400px] w-full cursor-pointer"
+                    />
+                  )}
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
       </div>
     </>
   );
